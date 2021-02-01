@@ -57,11 +57,14 @@ rep_bigdf_mean_sort[rep_bigdf_mean_sort["RNAcounts"]>1].to_csv(os.path.join(dst,
 rep_bigdf_mean_sort[:500].to_csv(os.path.join(dst, r"top500_PC_P21_genes_Cliffordetal_2019.csv"), index=None)
 #converted to gene symbol IDs and added column for gene symbol
 #%%
+
+import pandas as pd, os
+
 #find genes with GO pathways related to tubulin, mitochondrial transport, and axonal transport, etc. 
 #run list of genes from Corbo's dataframe in MGI browser to get GO annotations
-pth = r"C:\Users\zahhr\OneDrive - Washington University in St. Louis\corbo_lab_spring2021\MGI_analysis\MGIBatchReport_20210118_124556_Purkinje_RNA-seq_combined_ver6.xlsx"
+pth = r"C:\Users\zahhr\OneDrive - Washington University in St. Louis\corbo_lab_spring2021\MGI_analysis\MGIBatchReport_20210118_124556_Purkinje_RNA-seq_combined_ver6.csv"
 dst = r"C:\Users\zahhr\OneDrive - Washington University in St. Louis\corbo_lab_spring2021"
-df = pd.read_excel(pth)
+df = pd.read_csv(pth)
 #convert df to strings
 df = df.applymap(str)
 #first, combine all the GO term columns
@@ -109,9 +112,13 @@ for gene in bigdf_s.Input.values:
 
 #sort by 1) RNA exp at p21, 2) rank
 sortdf = bigdf_s.sort_values(by=["RNA_exp_ave_P21"], ascending=False)
-sortdf = sortdf[(sortdf.Rank > 1) | ((sortdf.Rank == 1) & (sortdf.RNA_exp_ave_P21 > 200))]
+#arbitrary sorting
+sortdf = sortdf[((sortdf.Rank > 1) & (sortdf.RNA_exp_ave_P21 > 100)) | ((sortdf.Rank == 1) & (sortdf.RNA_exp_ave_P21 > 200))]
 #drop duplicate gene symbols
 sortdf = sortdf.drop_duplicates(subset=["Symbol"])
+#drop non mouse homologs
+sortdf = sortdf[sortdf["Input Type"]=="current symbol"]
+
 #save
 sortdf.to_excel(os.path.join(dst, r"Purkinje_cell_gene_list\Purkinje_RNA-seq_combined_ver6_matching_GO_search_terms.xlsx"),index=None)
 
