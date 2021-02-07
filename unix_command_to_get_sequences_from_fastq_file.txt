@@ -1,0 +1,1 @@
+zcat Corb0_DMZD_1-26-21_SIC_index_0889_GACCAGAGGA_S144_L001_R1_001.fastq.gz | awk 'NR % 4 == 2 {print;}' | less >  Corb0_DMZD_1-26-21_SIC_index_0889_GACCAGAGGA_S144_L001_R1_001_seq.txt
