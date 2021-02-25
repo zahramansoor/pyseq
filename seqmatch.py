@@ -5,7 +5,7 @@ Created on Mon Feb  1 12:38:54 2021
 @author: zahhr
 """
 
-import pandas as pd
+import pandas as pd,matplotlib.pyplot as plt
 
 #extract sequences 
 f = open(r"C:\Users\zahhr\OneDrive - Washington University in St. Louis\corbo_lab_spring2021\Otx2-GFP_gene_list\Corb0_DMZD_1-26-21_SIC_index_0889_GACCAGAGGA_S144_L001_R1_001_seq.txt")
@@ -24,3 +24,11 @@ for xx in df.revComp.values:
 #export   
 df.to_csv(r"C:\Users\zahhr\OneDrive - Washington University in St. Louis\corbo_lab_spring2021\Otx2-GFP_gene_list\OligosTest2-rc_with_seq_coverage.csv",
           index=None)
+
+#analysis
+df = pd.read_csv(r"C:\Users\zahhr\OneDrive - Washington University in St. Louis\corbo_lab_spring2021\Otx2-GFP_gene_list\OligosTest2-rc_with_seq_coverage.csv",
+                 index_col=None)
+plt.hist(df["seq coverage"].values,bins=100,color="darkslateblue")
+plt.xlabel("NGS Reads")
+plt.ylabel("Genes")
+plt.savefig(r"C:\Users\zahhr\OneDrive - Washington University in St. Louis\corbo_lab_spring2021\Otx2-GFP_gene_list\library_coverage.svg",dpi=300)
