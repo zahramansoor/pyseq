@@ -32,3 +32,17 @@ plt.hist(df["seq coverage"].values,bins=100,color="darkslateblue")
 plt.xlabel("NGS Reads")
 plt.ylabel("Genes")
 plt.savefig(r"C:\Users\zahhr\OneDrive - Washington University in St. Louis\corbo_lab_spring2021\Otx2-GFP_gene_list\library_coverage.svg",dpi=300)
+#%%
+#sample simulation
+import random
+sim = [random.randint(0,2037) for xx in range(868516)]
+from collections import Counter
+dct = Counter(sim)
+seqsim = dct.values()
+
+plt.hist(df["seq coverage"].values,bins=100,color="indianred", alpha=0.5)
+plt.hist(seqsim,bins=100,color="black",alpha=0.5)
+plt.xlabel("NGS Reads")
+plt.ylabel("# gRNAs")
+plt.savefig(r"C:\Users\zahhr\OneDrive - Washington University in St. Louis\corbo_lab_spring2021\Otx2-GFP\library_coverage.svg",dpi=300)
+
